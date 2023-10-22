@@ -1,0 +1,23 @@
+{
+  "name": "notes-nodejs",
+  "version": "1.0.0",
+  "description": "NOTES-NODEJS\r app.js",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SEFSIS/notes-nodejs.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/SEFSIS/notes-nodejs/issues"
+  },
+  "homepage": "https://github.com/SEFSIS/notes-nodejs#readme",
+  "dependencies": {
+    "express": "^4.18.2"
+  }
+}
