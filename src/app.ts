@@ -15,6 +15,7 @@ app.get(
   "/users",
   async (req: Request, res: Response): Promise<Response<IUser[]>> => {
     const users = await User.find();
+
     return res.json(users);
   },
 );
