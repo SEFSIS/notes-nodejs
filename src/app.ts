@@ -23,6 +23,7 @@ app.get(
 app.post("/users", async (req, res) => {
   try {
     const createdUser = await User.create({ ...req.body });
+
     res.status(201).json(createdUser);
   } catch (e) {
     return res.status(400).json(e.message);
