@@ -9,8 +9,8 @@ const userSchema = new Schema(
     },
     age: {
       type: Number,
-      min: [1, "Minimum age is 1"],
-      max: [199, "Maximum age is 199"],
+      min: [18, "Minimum age is 1"],
+      max: [150, "Maximum age is 199"],
     },
     genders: {
       type: String,
