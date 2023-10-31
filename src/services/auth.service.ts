@@ -1,7 +1,10 @@
 import { ApiError } from "../errors/api.error";
+import { tokenRepository } from "../repositories/token.repository";
 import { userRepository } from "../repositories/user.repository";
+import { ITokensPair } from "../types/token.type";
 import { IUserCredentials } from "../types/user.type";
 import { passwordService } from "./password.service";
+import { tokenService } from "./token.service";
 
 class AuthService {
   public async register(dto: IUserCredentials): Promise<void> {
@@ -28,6 +31,14 @@ class AuthService {
       if (!isMatched) {
         throw new ApiError("Invalid credentials provided", 401);
       }
+
+      const tokensPair = await tokenService.generateTokenPair({
+        userId: user._id,
+        name: user.name,
+      });
+      await tokenRepository.create({ ...tokensPair, _userId: user._id });
+
+      return tokensPair;
     } catch (e) {
       throw new ApiError(e.message, e.status);
     }

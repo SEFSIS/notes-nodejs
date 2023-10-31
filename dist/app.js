@@ -40,7 +40,10 @@ app.use("/cars", car_router_1.carRouter);
 app.use("/auth", auth_router_1.authRouter);
 app.use((error, req, res, next) => {
     const status = error.status || 500;
-    res.status(status).json(error.message);
+    res.status(status).json({
+        message: error.message,
+        status: error.status,
+    });
 });
 app.listen(config_1.configs.PORT, async () => {
     await mongoose.connect(config_1.configs.DB_URI);

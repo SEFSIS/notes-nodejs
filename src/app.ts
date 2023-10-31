@@ -17,7 +17,10 @@ app.use("/auth", authRouter);
 
 app.use((error: any, req: Request, res: Response, next: NextFunction) => {
   const status = error.status || 500;
-  res.status(status).json(error.message);
+  res.status(status).json({
+    message: error.message,
+    status: error.status,
+  });
 });
 
 app.listen(configs.PORT, async () => {
