@@ -1,7 +1,9 @@
 import { ObjectId } from "mongodb";
 
+import { EActionTokenType } from "../enums/actionTokenType.enum";
 import { EEmailAction } from "../enums/email.action.enum";
 import { ApiError } from "../errors/api.error";
+import { actionTokenRepository } from "../repositories/action-token.repository";
 import { tokenRepository } from "../repositories/token.repository";
 import { userRepository } from "../repositories/user.repository";
 import { ITokenPayload, ITokensPair } from "../types/token.type";
@@ -14,10 +16,24 @@ class AuthService {
   public async register(dto: IUserCredentials): Promise<void> {
     try {
       const hashedPassword = await passwordService.hash(dto.password);
+
+      const user = await userRepository.register({
+        ...dto,
+        password: hashedPassword,
+      });
+      const actionToken = tokenService.generateActionToken({
+        userId: user._id,
+        name: user.name,
+      });
+      await actionTokenRepository.create({
+        token: actionToken,
+        type: EActionTokenType.activate,
+        _userId: user._id,
+      });
       await emailService.sendMail(dto.email, EEmailAction.REGISTER, {
         name: dto.name,
+        actionToken,
       });
-      await userRepository.register({ ...dto, password: hashedPassword });
     } catch (e) {
       throw new ApiError(e.messages, e.status);
     }

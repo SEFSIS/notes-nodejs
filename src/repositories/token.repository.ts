@@ -5,7 +5,7 @@ import { IToken } from "../types/token.type";
 
 export class TokenRepository {
   public async create(dto: Partial<IToken>): Promise<IToken> {
-    return await Token.create(dto);
+    return (await Token.create(dto)) as IToken;
   }
 
   public async findOne(params: FilterQuery<IToken>): Promise<IToken> {

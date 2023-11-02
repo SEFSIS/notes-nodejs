@@ -3,6 +3,7 @@ import * as jwt from "jsonwebtoken";
 import { configs } from "../configs/config";
 import { ApiError } from "../errors/api.error";
 import { ITokenPayload, ITokensPair } from "../types/token.type";
+import {EActionTokenType} from "../enums/actionTokenType.enum";
 
 class TokenService {
   public generateTokenPair(payload: ITokenPayload): ITokensPair {
@@ -33,6 +34,20 @@ class TokenService {
       }
 
       return jwt.verify(token, secret) as ITokenPayload;
+    } catch (e) {
+      throw new ApiError("Token not valid", 401);
+    }
+  }
+
+  public generateActionToken(payload: ITokenPayload): string {
+    return jwt.sign(payload, configs.JWT_ACTION_SECRET, {
+      expiresIn: "1d",
+    });
+  }
+
+  public checkActionToken(token: string): ITokenPayload {
+    try {
+      return jwt.verify(token, configs.JWT_ACTION_SECRET) as ITokenPayload;
     } catch (e) {
       throw new ApiError("Token not valid", 401);
     }

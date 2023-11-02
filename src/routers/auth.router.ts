@@ -30,4 +30,5 @@ router.post(
   authMiddleware.checkAccessToken,
   authController.logoutAll,
 );
+
 export const authRouter = router;
