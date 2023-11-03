@@ -1,5 +1,6 @@
 import { FilterQuery } from "mongoose";
 
+import { EActionTokenType } from "../enums/actionTokenType.enum";
 import { ActionToken } from "../models/ActionToken.model";
 import { IActionToken } from "../types/token.type";
 
@@ -18,8 +19,11 @@ export class ActionTokenRepository {
     await ActionToken.deleteOne(params);
   }
 
-  public async deleteManyByUserId(userId: string): Promise<void> {
-    await ActionToken.deleteMany({ _userId: userId });
+  public async deleteManyByUserIdAndType(
+    userId: string,
+    type: EActionTokenType,
+  ): Promise<void> {
+    await ActionToken.deleteMany({ _userId: userId, type });
   }
 }
 
